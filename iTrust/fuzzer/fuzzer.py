@@ -17,9 +17,13 @@ def fuzzing():
         #print dir_name 
 	for root, dirnames, filenames in os.walk(dir_name):
 		for filename in fnmatch.filter(filenames, '*.java'):
+			if "model" in root or "mysql" in root:
+				continue
 			#print filename
 			files.append(os.path.join(root, filename))
 	for file_name in files:
+		if "model" in file_name or "mysql" in file_name:
+			print file_name
 		#print i,"\n"
 		f = open(file_name, 'r')
 		lines = f.readlines()
