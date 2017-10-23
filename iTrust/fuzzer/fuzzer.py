@@ -140,24 +140,26 @@ def revertcommit(sha):
         response = requests.get('http://159.203.180.176:8080/job/itrust_test2/api/json',
                                  auth=('admin', 'ece6144f110d430586988c71da1f3ae1'))
         data = response.json()
-        buildNumber = data['nextBuildNumber'] - 1
-	print "current build number is ------------------------ %d " % buildNumber
-#	while True:
-#                
-#		response = requests.get('http://159.203.180.176:8080/job/itrust_test2/4/api/json',
-#								auth=('admin', 'ece6144f110d430586988c71da1f3ae1'))
-#		data = response.json()
-#		try: 
-#			
-#			if data['building'] != False:
-#				time.sleep(5)
-#				continue
-#			os.system('git checkout %s' %sha)
-#			break
-#		except ValueError:
-#			print data
-	print "-----------------------------------"
-	print data
+        buildNumber = data['nextBuildNumber']
+	while True:
+                
+		response = requests.get('http://159.203.180.176:8080/job/itrust_test2/' + buildNumber  + '/api/json',
+								auth=('admin', 'ece6144f110d430586988c71da1f3ae1'))
+		data = response.json()
+
+		try: 
+			
+			if data['building'] != False:
+				time.sleep(5)
+				continue
+			os.system('git checkout master && git branch -D fuzzer')
+			break
+
+		except ValueError:
+			print data
+
+#	print "-----------------------------------"
+#	print data
 def main():
 	for i in range(1):
 
