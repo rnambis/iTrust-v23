@@ -146,7 +146,7 @@ def revertcommit(i,sha):
 
 def main():
 	for i in range(1):
-		os.system('git branch fuzzer && git checkout fuzzer')
+		os.system('git checkout -B fuzzer')
 		fuzzing()
 		gitcommit(i)
 		#revertcommit(i,sha1)
