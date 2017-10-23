@@ -88,20 +88,20 @@ def fuzzing():
 					#print line,"\n"
 					#print "!= fuzzed"
 
-			if(re.match('(.*)0(.*)',line) is not None):
+			#if(re.match('(.*)0(.*)',line) is not None):
 				#print"---------------------------------------START----------------------------"
 				#print line,"\n"
-				if(lt >= 500 and lt < 625):
-					line = re.sub('0','1',line)
+			#	if(lt >= 500 and lt < 625):
+			#		line = re.sub('0','1',line)
 				#print "---------------------------------------END------------------------------"
 				#print line,"\n"
 				#print "0 fuzzed"
 	
-			if(re.match('(.*)1(.*)',line) is not None):
+			#if(re.match('(.*)1(.*)',line) is not None):
 				#print"---------------------------------------START----------------------------"
 				#print line,"\n"
-				if(lt >= 625 and lt < 750):
-					line = re.sub('1','0',line)
+			#	if(lt >= 625 and lt < 750):
+			#		line = re.sub('1','0',line)
 				#print "---------------------------------------END------------------------------"
 				#print line,"\n"                      
 				#print "1 fuzzed"
