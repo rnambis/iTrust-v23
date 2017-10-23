@@ -10,6 +10,7 @@ import subprocess
 #from git import Repo
 
 sha1 = ""
+
 def fuzzing():
 	print "kiran krishnan"
 	files = []
@@ -134,27 +135,36 @@ def gitcommit(i):
 	sha1 = os.popen('git rev-parse HEAD').read()
 	print sha1
 
-def revertcommit(i,sha):
-	while True:
-		response = requests.get('http://159.203.180.176:8080/job/itrust_test2/4/api/json',
-								auth=('admin', 'ece6144f110d430586988c71da1f3ae1'))
-		data = response.json()
-		try: 
-			
-			if data['building'] != False:
-				time.sleep(5)
-				continue
-			os.system('git checkout %s' %sha)
-			break
-		except ValueError:
-			print data
+def revertcommit(sha):
 
+        response = requests.get('http://159.203.180.176:8080/job/itrust_test2/api/json',
+                                 auth=('admin', 'ece6144f110d430586988c71da1f3ae1'))
+        data = response.json()
+        buildNumber = data['nextBuildNumber'] - 1
+	print "current build number is ------------------------" + buildNumber
+#	while True:
+#                
+#		response = requests.get('http://159.203.180.176:8080/job/itrust_test2/4/api/json',
+#								auth=('admin', 'ece6144f110d430586988c71da1f3ae1'))
+#		data = response.json()
+#		try: 
+#			
+#			if data['building'] != False:
+#				time.sleep(5)
+#				continue
+#			os.system('git checkout %s' %sha)
+#			break
+#		except ValueError:
+#			print data
+	print "-----------------------------------"
+	print data
 def main():
 	for i in range(1):
+
 		os.system('git checkout -B fuzzer')
 		fuzzing()
 		gitcommit(i)
-		#revertcommit(i,sha1)
+		revertcommit(sha1)
 
 
 if __name__ == "__main__":
