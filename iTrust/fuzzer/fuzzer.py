@@ -114,9 +114,9 @@ def fuzzing():
 
 			lines2.append(line)
 
-		if set(lines2) == set(lines):
+		#if set(lines2) == set(lines):
 			#print "false"
-		else:
+		#else:
 			#print "true"
 		fout = open(file_name,'w')
 		for l in lines2:
