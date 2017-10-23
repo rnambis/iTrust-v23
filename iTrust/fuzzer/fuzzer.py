@@ -118,8 +118,8 @@ def fuzzing():
 
 			lines2.append(line)
 
-		#if set(lines2) == set(lines):
-			#print "false"
+		if set(lines2) == set(lines):
+			print file_name
 		#else:
 			#print "true"
 		#os.system('chmod 777 ' + file_name)
