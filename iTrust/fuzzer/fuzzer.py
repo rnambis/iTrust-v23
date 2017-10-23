@@ -122,7 +122,7 @@ def fuzzing():
 			#print "false"
 		#else:
 			#print "true"
-		os.system('chmod 777 ' + file_name)
+		#os.system('chmod 777 ' + file_name)
 		fout = open(file_name,'w')
 		for l in lines2:
 			fout.write(l)
