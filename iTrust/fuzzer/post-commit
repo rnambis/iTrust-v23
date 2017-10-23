@@ -1,0 +1,3 @@
+#!/bin/sh
+ansible-playbook /tmp/iTrust-v23/iTrust/postcommit_jenkinsbuild.yml
+
