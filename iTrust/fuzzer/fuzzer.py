@@ -46,7 +46,7 @@ def fuzzing():
 			#print(line,': ----------------------------------------------------------inside for')
 			if(re.match('(.*)if(.*)',line) is not None or re.match('(.*)while(.*)',line) is not None):
 				#print (line,": ---------------------------------------------------inside if if")
-				if(re.match('(.*)<(.*)',line) is not None):
+				if(re.match('(.*)<(.*)',line) is not None ) and (re.match('.*<.+>.*',line) is None):
 					#print"---------------------------------------START----------------------------"
 					#print line,"\n"
 					if(lt < 125):
@@ -57,7 +57,7 @@ def fuzzing():
 
 			if(re.match('(.*)if(.*)',line) is not None or re.match('(.*)while(.*)',line) is not None):
 	                        #print (line,": ---------------------------------------------------inside if if")
-				if(re.match('(.*)>(.*)',line) is not None):
+				if(re.match('(.*)>(.*)',line) is not None) and (re.match('.*<.+>.*',line) is None):
 					#print"---------------------------------------START----------------------------"
 					#print line,"\n"
 					if(lt >= 125 and lt < 250):
@@ -106,7 +106,7 @@ def fuzzing():
 				#print line,"\n"                      
 				#print "1 fuzzed"
  	                        
-			if(re.match('.*\"(.*)\".*',line) is not None):
+			if(re.match('.*\"(.*)\".*',line) is not None) and (re.match('\".*\\.*\"',line) is not None) and (re.match('\".*@.*\"',line) is not None):
 				#print"---------------------------------------START----------------------------"
 				#print line,"\n"
 				if(lt >= 750 and lt <= 1001):
