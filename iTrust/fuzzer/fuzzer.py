@@ -83,26 +83,26 @@ def fuzzing():
 				if(re.match('(.*)!=(.*)',line) is not None):
 					#print"---------------------------------------START----------------------------"
 					#print line,"\n"
-					if(lt >= 375 and lt < 500):
+					if(lt >= 375 and lt < 700):
 						line = re.sub('!=','==',line)
 					#print "---------------------------------------END------------------------------"
 					#print line,"\n"
 					#print "!= fuzzed"
 
-			if(re.match('(.*)&&(.*)',line) is not None) and (re.match('(.*)if(.*)',line) is not None or re.match('(.*)while(.*)',line) is not None):
+			#if(re.match('(.*)&&(.*)',line) is not None) and (re.match('(.*)if(.*)',line) is not None or re.match('(.*)while(.*)',line) is not None):
 				#print"---------------------------------------START----------------------------"
 				#print line,"\n"
-				if(lt >= 500 and lt < 625):
-					line = re.sub('&&','||',line)
+			#	if(lt >= 500 and lt < 625):
+			#		line = re.sub('&&','||',line)
 				#print "---------------------------------------END------------------------------"
 				#print line,"\n"
 				#print "0 fuzzed"
 	
-			if(re.match('(.*)||(.*)',line) is not None) and (re.match('(.*)if(.*)',line) is not None or re.match('(.*)while(.*)',line) is not None):
+			#if(re.match('(.*)||(.*)',line) is not None) and (re.match('(.*)if(.*)',line) is not None or re.match('(.*)while(.*)',line) is not None):
 				#print"---------------------------------------START----------------------------"
 				#print line,"\n"
-				if(lt >= 625 and lt < 750):
-					line = re.sub('||','&&',line)
+			#	if(lt >= 625 and lt < 750):
+			#		line = re.sub('||','&&',line)
 				#print "---------------------------------------END------------------------------"
 				#print line,"\n"                      
 				#print "1 fuzzed"
@@ -110,7 +110,7 @@ def fuzzing():
 			if(re.match('.*\"(.*)\".*',line) is not None) and (re.match('\".*\\.*\"',line) is not None) and (re.match('\".*@.*\"',line) is not None):
 				#print"---------------------------------------START----------------------------"
 				#print line,"\n"
-				if(lt >= 750 and lt <= 1001):
+				if(lt >= 700 and lt <= 1001):
 					match = re.search(".*(\".*\").*",line)
 					line = line.replace(match.group(1),"\"ThisISRanDOm\"")
 				#print "---------------------------------------END------------------------------"
@@ -162,7 +162,7 @@ def revertcommit(sha):
 #	print "-----------------------------------"
 #	print data
 def main():
-	for i in range(3):
+	for i in range(10):
 
 		os.system('git checkout -B fuzzer')
 		fuzzing()
