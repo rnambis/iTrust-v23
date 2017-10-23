@@ -89,20 +89,20 @@ def fuzzing():
 					#print line,"\n"
 					#print "!= fuzzed"
 
-			#if(re.match('(.*)0(.*)',line) is not None):
+			if(re.match('(.*)&&(.*)',line) is not None) and (re.match('(.*)if(.*)',line) is not None or re.match('(.*)while(.*)',line) is not None):
 				#print"---------------------------------------START----------------------------"
 				#print line,"\n"
-			#	if(lt >= 500 and lt < 625):
-			#		line = re.sub('0','1',line)
+				if(lt >= 500 and lt < 625):
+					line = re.sub('&&','||',line)
 				#print "---------------------------------------END------------------------------"
 				#print line,"\n"
 				#print "0 fuzzed"
 	
-			#if(re.match('(.*)1(.*)',line) is not None):
+			if(re.match('(.*)||(.*)',line) is not None) and (re.match('(.*)if(.*)',line) is not None or re.match('(.*)while(.*)',line) is not None):
 				#print"---------------------------------------START----------------------------"
 				#print line,"\n"
-			#	if(lt >= 625 and lt < 750):
-			#		line = re.sub('1','0',line)
+				if(lt >= 625 and lt < 750):
+					line = re.sub('||','&&',line)
 				#print "---------------------------------------END------------------------------"
 				#print line,"\n"                      
 				#print "1 fuzzed"
@@ -112,7 +112,7 @@ def fuzzing():
 				#print line,"\n"
 				if(lt >= 750 and lt <= 1001):
 					match = re.search(".*(\".*\").*",line)
-					line = line.replace(match.group(1),"\"shit\"")
+					line = line.replace(match.group(1),"\"ThisISRanDOm\"")
 				#print "---------------------------------------END------------------------------"
 				#print line,"\n"                      
 				#print "string fuzzed"
