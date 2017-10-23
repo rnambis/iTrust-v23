@@ -14,10 +14,10 @@ def fuzzing():
 	print "kiran krishnan"
 	files = []
         dir_name = os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
-        print dir_name 
+        #print dir_name 
 	for root, dirnames, filenames in os.walk(dir_name):
 		for filename in fnmatch.filter(filenames, '*.java'):
-			print filename
+			#print filename
 			files.append(os.path.join(root, filename))
 	for file_name in files:
 		#print i,"\n"
