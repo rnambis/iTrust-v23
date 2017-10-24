@@ -24,7 +24,7 @@ def fuzzing():
 			#print filename
 			files.append(os.path.join(root, filename))
 	for file_name in files:
-		if "model" in file_name or "mysql" in file_name or "test" in file_name or "AddApptRequestAction.java" in file_name:
+		#if "model" in file_name or "mysql" in file_name or "test" in file_name or "AddApptRequestAction.java" in file_name:
 			#print file_name
 		
 		#print i,"\n"
