@@ -161,7 +161,7 @@ def revertcommit(sha):
 #	print data
 def main():
 	builds = []
-	for i in range(2):
+	for i in range(100):
 
 		os.system('git checkout -B fuzzer')
 		fuzzing()
