@@ -107,12 +107,12 @@ def fuzzing():
 				#print line,"\n"                      
 				#print "1 fuzzed"
  	                        
-			if(re.match('.*\"(.*)\".*',line) is not None) and (re.match('\".*\\.*\"',line) is not None) and (re.match('\".*@.*\"',line) is not None):
+			#if(re.match('.*\"(.*)\".*',line) is not None) and (re.match('\".*\\.*\"',line) is not None) and (re.match('\".*@.*\"',line) is not None):
 				#print"---------------------------------------START----------------------------"
 				#print line,"\n"
-				if(lt >= 700 and lt <= 1001):
-					match = re.search(".*(\".*\").*",line)
-					line = line.replace(match.group(1),"\"ThisISRanDOm\"")
+			#	if(lt >= 700 and lt <= 1001):
+			#		match = re.search(".*(\".*\").*",line)
+			#		line = line.replace(match.group(1),"\"ThisISRanDOm\"")
 				#print "---------------------------------------END------------------------------"
 				#print line,"\n"                      
 				#print "string fuzzed"
