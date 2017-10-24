@@ -147,8 +147,8 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>2.19</version>
         	<configuration>
-			<parallel>all</all>
-			<threadCount>12</all>
+			<parallel>all<parallel>
+			<threadCount>12</threadCount>
 			<reuseForks>true</reuseForks>
 			<forkCount>1.0C</forkCount>
                 <excludes>
