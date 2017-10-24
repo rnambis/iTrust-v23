@@ -1,5 +1,6 @@
 import sys
 import re
+from prettytable import PrettyTable
 
 buildslist = []
 
@@ -11,14 +12,12 @@ def useless(buildslist):
     for i in buildslist:
         with open('/var/lib/jenkins/jobs/itrust_job2/builds/'+str(i)+'/log', 'r') as logfile:
             logdata_list=logfile.readlines()
-        #print logdata_list[4]
         loglen = len(logdata_list)
-        print "Length of logs"+str(i)+" : "+str(loglen)
+        #print "Length of logs"+str(i)+" : "+str(loglen)
         j = 0
         while (j<loglen):
             test = re.search("Tests run: (\d+), Failures: 0,.*- in (.*)\n",logdata_list[j])
 	    if test:
-    	        #print test.group(1)
 		if (logdict.has_key(test.group(2))):
 		    temp = logdict.get(test.group(2))
                     if temp:
@@ -28,23 +27,29 @@ def useless(buildslist):
 	        else:
 	     	    logdict.update({test.group(2):1})
 		    testdict.update({test.group(2):int(test.group(1))})
-                    #print logdict	
 	    j+=1
-        #i+=1
     values = logdict.values()
     logtestlist = logdict.keys()
     vallen = len(values)
     uselesstests = []
-    uselesscount = 0
+    uselesscount = []
+    uselesscountsum = 0
     for i in range(vallen):
 	if values[i]==listlen:
 	    uselesstests.append(logtestlist[i])
-	    uselesscount+=testdict[logtestlist[i]]
+	    uselesscount.append(testdict[logtestlist[i]])
+	    uselesscountsum+=testdict[logtestlist[i]]
 
     logfile.close()
-    #print "Length of Dictionary: "+str(len(logdict))
-    print uselesstests
-    print "Number of useless tests: "+str(uselesscount)
+    t = PrettyTable(['Useless Test','No of tests'])
+    k = 0
+    while k < len(uselesstests):
+	t.add_row([uselesstests[k],uselesscount[k]])
+        k+=1
+
+    print t
+    #print uselesstests
+    print "Number of useless tests: "+str(uselesscountsum)
     print "Exited Useless test detector!"
 
 
