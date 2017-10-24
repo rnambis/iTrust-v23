@@ -5,7 +5,7 @@ buildslist = []
 
 def useless(buildslist):
     logdict = {}
-    buildslist = [112,113,114,115,116,117,118,119,120,121]
+    #buildslist = [112,113,114,115,116,117,118,119,120,121]
     listlen = len(buildslist)
     for i in buildslist:
         with open('/var/lib/jenkins/jobs/itrust_test2/builds/'+str(i)+'/log', 'r') as logfile:
