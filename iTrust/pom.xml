@@ -148,7 +148,6 @@
         <version>2.19</version>
         	<configuration>
 			<parallel>all</parallel>
-			<threadCount>12</threadCount>
 			<reuseForks>true</reuseForks>
 			<forkCount>1.0C</forkCount>
                 <excludes>
