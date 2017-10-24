@@ -5,6 +5,7 @@ import random
 import requests
 import time
 import subprocess
+from useless import useless
 
 
 #from git import Repo
@@ -166,7 +167,8 @@ def main():
 		fuzzing()
 		gitcommit(i)
 		builds.append(revertcommit(sha1))
-	print builds
+	useless(builds)
+	#print builds
 
 if __name__ == "__main__":
 	main()
