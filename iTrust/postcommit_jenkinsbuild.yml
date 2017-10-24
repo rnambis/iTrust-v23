@@ -27,7 +27,7 @@
       user: admin
       password: "{{password.stdout}}"
       force_basic_auth: yes
-      url: "http://127.0.0.1:8080/job/itrust_test2/build"
+      url: "http://127.0.0.1:8080/job/itrust_job2/build"
       method: POST
       headers:
         Jenkins-Crumb : "{{ jenkins_crumb.json.crumb }}"

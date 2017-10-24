@@ -9,7 +9,7 @@ def useless(buildslist):
     #buildslist = [126,127,128,129,130]
     listlen = len(buildslist)
     for i in buildslist:
-        with open('/var/lib/jenkins/jobs/itrust_test2/builds/'+str(i)+'/log', 'r') as logfile:
+        with open('/var/lib/jenkins/jobs/itrust_job2/builds/'+str(i)+'/log', 'r') as logfile:
             logdata_list=logfile.readlines()
         #print logdata_list[4]
         loglen = len(logdata_list)
