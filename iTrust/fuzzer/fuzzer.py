@@ -13,7 +13,7 @@ from useless import useless
 sha1 = ""
 
 def fuzzing():
-	print "kiran krishnan"
+	#print "kiran krishnan"
 	files = []
         dir_name = os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
         #print dir_name 
@@ -25,7 +25,7 @@ def fuzzing():
 			files.append(os.path.join(root, filename))
 	for file_name in files:
 		if "model" in file_name or "mysql" in file_name or "test" in file_name or "AddApptRequestAction.java" in file_name:
-			print file_name
+			#print file_name
 		
 		#print i,"\n"
 		f = open(file_name, 'r')
@@ -115,8 +115,8 @@ def fuzzing():
 
 			lines2.append(line)
 
-		if set(lines2) == set(lines):
-			print file_name
+		#if set(lines2) == set(lines):
+			#print file_name
 		#else:
 			#print "true"
 		#os.system('chmod 777 ' + file_name)
@@ -129,7 +129,7 @@ def gitcommit(i):
 	#os.system('git add . && git commit -m "fuzzed %d"' %i)
 	os.system('git add --all . && git commit -am "fuzzed %d"' %(i+1))
 	sha1 = os.popen('git rev-parse HEAD').read()
-	print sha1
+	#print sha1
 
 def revertcommit(sha):
 	
