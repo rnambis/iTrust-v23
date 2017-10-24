@@ -34,12 +34,6 @@ def fuzzing():
 		#break
 		# To swap <
 		lt = random.randint(1,1001)
-		gt = random.randint(1,1001)
-		eq = random.randint(1,1001)
-		neq = random.randint(1,1001)
-		one = random.randint(1,1001)
-		zero = random.randint(1,1001)
-		chgStr = random.randint(1,1001)
 		#print lt
 		lines1 = lines
 		lines2 = []
@@ -108,12 +102,12 @@ def fuzzing():
 				#print line,"\n"                      
 				#print "1 fuzzed"
  	                        
-			#if(re.match('.*\"(.*)\".*',line) is not None) and (re.match('\".*\\.*\"',line) is not None) and (re.match('\".*@.*\"',line) is not None):
+			if(re.match('.*\"(.*)\".*',line) is not None) and (re.match('\".*\\.*\"',line) is not None) and (re.match('\".*@.*\"',line) is not None):
 				#print"---------------------------------------START----------------------------"
 				#print line,"\n"
-			#	if(lt >= 700 and lt <= 1001):
-			#		match = re.search(".*(\".*\").*",line)
-			#		line = line.replace(match.group(1),"\"ThisISRanDOm\"")
+				if(lt >= 700 and lt <= 1001):
+					match = re.search(".*(\".*\").*",line)
+					line = line.replace(match.group(1),"\"ThisISRanDOm\"")
 				#print "---------------------------------------END------------------------------"
 				#print line,"\n"                      
 				#print "string fuzzed"
@@ -132,12 +126,13 @@ def fuzzing():
 		
 def gitcommit(i):
 	#os.system('git add . && git commit -m "fuzzed %d"' %i)
-	os.system('git add --all . && git commit -am "fuzzed %d"' %i)
+	os.system('git add --all . && git commit -am "fuzzed %d"' %(i+1))
 	sha1 = os.popen('git rev-parse HEAD').read()
 	print sha1
 
 def revertcommit(sha):
-
+	
+	
         response = requests.get('http://159.203.180.176:8080/job/itrust_test2/api/json',
                                  auth=('admin', 'ece6144f110d430586988c71da1f3ae1'))
         data = response.json()
@@ -159,17 +154,19 @@ def revertcommit(sha):
 		except ValueError:
 			#print data
 			continue
+	return buildNumber
 
 #	print "-----------------------------------"
 #	print data
 def main():
-	for i in range(10):
+	builds = []
+	for i in range(2):
 
 		os.system('git checkout -B fuzzer')
 		fuzzing()
 		gitcommit(i)
-		revertcommit(sha1)
-
+		builds.append(revertcommit(sha1))
+	print builds
 
 if __name__ == "__main__":
 	main()
