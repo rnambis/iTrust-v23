@@ -75,26 +75,26 @@ def fuzzing():
 				if(re.match('(.*)!=(.*)',line) is not None):
 					#print"---------------------------------------START----------------------------"
 					#print line,"\n"
-					if(lt >= 375 and lt < 500):
+					if(lt >= 375 and lt < 700):
 						line = re.sub('!=','==',line)
 					#print "---------------------------------------END------------------------------"
 					#print line,"\n"
 					#print "!= fuzzed"
 
-			if(re.match('(.*) 0(.*)',line) is not None) and (re.match('(.*)if(.*)',line) is not None or re.match('(.*)while(.*)',line) is not None):
+			#if(re.match('(.*) 0(.*)',line) is not None) and (re.match('(.*)if(.*)',line) is not None or re.match('(.*)while(.*)',line) is not None):
 				#print"---------------------------------------START----------------------------"
 				#print line,"\n"
-				if(lt >= 500 and lt < 625):
-					line = re.sub(' 0',' 1',line)
+			#	if(lt >= 500 and lt < 625):
+			#		line = re.sub(' 0',' 1',line)
 				#print "---------------------------------------END------------------------------"
 				#print line,"\n"
 				#print "0 fuzzed"
 	
-			if(re.match('(.*) 1(.*)',line) is not None) and (re.match('(.*)if(.*)',line) is not None or re.match('(.*)while(.*)',line) is not None):
+			#if(re.match('(.*) 1(.*)',line) is not None) and (re.match('(.*)if(.*)',line) is not None or re.match('(.*)while(.*)',line) is not None):
 				#print"---------------------------------------START----------------------------"
 				#print line,"\n"
-				if(lt >= 625 and lt < 700):
-					line = re.sub(' 1',' 0',line)
+			#	if(lt >= 625 and lt < 700):
+			#		line = re.sub(' 1',' 0',line)
 				#print "---------------------------------------END------------------------------"
 				#print line,"\n"                      
 				#print "1 fuzzed"
@@ -157,7 +157,7 @@ def revertcommit(sha):
 #	print data
 def main():
 	builds = []
-	for i in range(10):
+	for i in range(1000):
 
 		os.system('git checkout -B fuzzer')
 		fuzzing()
