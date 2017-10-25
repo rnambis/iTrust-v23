@@ -13,18 +13,14 @@ from useless import useless
 sha1 = ""
 
 def fuzzing():
-	#print "kiran krishnan"
 	files = []
         dir_name = os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
-        #print dir_name 
 	for root, dirnames, filenames in os.walk(dir_name):
 		for filename in fnmatch.filter(filenames, '*.java'):
 			if "model" in root or "mysql" in root or "test" in root or "AddApptRequestAction.java" in filename:
 				continue
-			#print filename
 			files.append(os.path.join(root, filename))
 	for file_name in files:
-		#if "model" in file_name or "mysql" in file_name or "test" in file_name or "AddApptRequestAction.java" in file_name:
 			#print file_name
 		
 		#print i,"\n"
@@ -79,26 +75,26 @@ def fuzzing():
 				if(re.match('(.*)!=(.*)',line) is not None):
 					#print"---------------------------------------START----------------------------"
 					#print line,"\n"
-					if(lt >= 375 and lt < 700):
+					if(lt >= 375 and lt < 500):
 						line = re.sub('!=','==',line)
 					#print "---------------------------------------END------------------------------"
 					#print line,"\n"
 					#print "!= fuzzed"
 
-			#if(re.match('(.*)&&(.*)',line) is not None) and (re.match('(.*)if(.*)',line) is not None or re.match('(.*)while(.*)',line) is not None):
+			if(re.match('(.*) 0(.*)',line) is not None) and (re.match('(.*)if(.*)',line) is not None or re.match('(.*)while(.*)',line) is not None):
 				#print"---------------------------------------START----------------------------"
 				#print line,"\n"
-			#	if(lt >= 500 and lt < 625):
-			#		line = re.sub('&&','||',line)
+				if(lt >= 500 and lt < 625):
+					line = re.sub(' 0',' 1',line)
 				#print "---------------------------------------END------------------------------"
 				#print line,"\n"
 				#print "0 fuzzed"
 	
-			#if(re.match('(.*)||(.*)',line) is not None) and (re.match('(.*)if(.*)',line) is not None or re.match('(.*)while(.*)',line) is not None):
+			if(re.match('(.*) 1(.*)',line) is not None) and (re.match('(.*)if(.*)',line) is not None or re.match('(.*)while(.*)',line) is not None):
 				#print"---------------------------------------START----------------------------"
 				#print line,"\n"
-			#	if(lt >= 625 and lt < 750):
-			#		line = re.sub('||','&&',line)
+				if(lt >= 625 and lt < 700):
+					line = re.sub(' 1',' 0',line)
 				#print "---------------------------------------END------------------------------"
 				#print line,"\n"                      
 				#print "1 fuzzed"
@@ -135,7 +131,7 @@ def revertcommit(sha):
 	
 	
         response = requests.get('http://159.203.180.176:8080/job/itrust_job2/api/json',
-                                 auth=('admin', 'e1c89f67a1b4440fb1dd4dd3c4cf41aa'))
+                                 auth=('admin', 'ece6144f110d430586988c71da1f3ae1'))
         data = response.json()
         buildNumber = data['nextBuildNumber']
 	#time.sleep(5)
@@ -143,7 +139,7 @@ def revertcommit(sha):
 		#print 'http://159.203.180.176:8080/job/itrust_job2/' + str(buildNumber)  + '/api/json'                
 		try:
 			response = requests.get('http://159.203.180.176:8080/job/itrust_job2/' + str(buildNumber)  + '/api/json',
-								auth=('admin', 'e1c89f67a1b4440fb1dd4dd3c4cf41aa'))
+								auth=('admin', 'ece6144f110d430586988c71da1f3ae1'))
 			data = response.json()
 			
 			if data['building'] != False:
@@ -161,7 +157,7 @@ def revertcommit(sha):
 #	print data
 def main():
 	builds = []
-	for i in range(1000):
+	for i in range(10):
 
 		os.system('git checkout -B fuzzer')
 		fuzzing()
