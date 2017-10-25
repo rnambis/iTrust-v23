@@ -135,7 +135,7 @@ def revertcommit(sha):
 	
 	
         response = requests.get('http://159.203.180.176:8080/job/itrust_job2/api/json',
-                                 auth=('admin', 'ece6144f110d430586988c71da1f3ae1'))
+                                 auth=('admin', 'e1c89f67a1b4440fb1dd4dd3c4cf41aa'))
         data = response.json()
         buildNumber = data['nextBuildNumber']
 	#time.sleep(5)
@@ -143,7 +143,7 @@ def revertcommit(sha):
 		#print 'http://159.203.180.176:8080/job/itrust_job2/' + str(buildNumber)  + '/api/json'                
 		try:
 			response = requests.get('http://159.203.180.176:8080/job/itrust_job2/' + str(buildNumber)  + '/api/json',
-								auth=('admin', 'ece6144f110d430586988c71da1f3ae1'))
+								auth=('admin', 'e1c89f67a1b4440fb1dd4dd3c4cf41aa'))
 			data = response.json()
 			
 			if data['building'] != False:
