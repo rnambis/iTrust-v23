@@ -130,16 +130,16 @@ def gitcommit(i):
 def revertcommit(sha):
 	
 	
-        response = requests.get('http://159.203.180.176:8080/job/itrust_job2/api/json',
-                                 auth=('admin', 'ece6144f110d430586988c71da1f3ae1'))
+        response = requests.get('http://162.243.165.186:8080/job/itrust_job2/api/json',
+                                 auth=('admin', 'e1c89f67a1b4440fb1dd4dd3c4cf41aa'))
         data = response.json()
         buildNumber = data['nextBuildNumber']
 	#time.sleep(5)
 	while True:
 		#print 'http://159.203.180.176:8080/job/itrust_job2/' + str(buildNumber)  + '/api/json'                
 		try:
-			response = requests.get('http://159.203.180.176:8080/job/itrust_job2/' + str(buildNumber)  + '/api/json',
-								auth=('admin', 'ece6144f110d430586988c71da1f3ae1'))
+			response = requests.get('http://162.243.165.186:8080/job/itrust_job2/' + str(buildNumber)  + '/api/json',
+								auth=('admin', 'e1c89f67a1b4440fb1dd4dd3c4cf41aa'))
 			data = response.json()
 			
 			if data['building'] != False:
@@ -157,7 +157,7 @@ def revertcommit(sha):
 #	print data
 def main():
 	builds = []
-	for i in range(10):
+	for i in range(100):
 
 		os.system('git checkout -B fuzzer')
 		fuzzing()
