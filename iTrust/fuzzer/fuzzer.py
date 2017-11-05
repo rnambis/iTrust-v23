@@ -7,6 +7,7 @@ import time
 import subprocess
 from useless_iteration import useless
 from matplotlib import pyplot as plt
+import matplotlib
 matplotlib.use('Agg')
 passing = []
 
