@@ -130,7 +130,7 @@ def gitcommit(i):
 def revertcommit(sha):
 	
 	
-        response = requests.get('http://162.243.165.186:8080/job/itrust_job2/api/json',
+        response = requests.get('http://127.0.0.1:8080/job/itrust_job2/api/json',
                                  auth=('admin', 'e1c89f67a1b4440fb1dd4dd3c4cf41aa'))
         data = response.json()
         buildNumber = data['nextBuildNumber']
@@ -138,7 +138,7 @@ def revertcommit(sha):
 	while True:
 		#print 'http://159.203.180.176:8080/job/itrust_job2/' + str(buildNumber)  + '/api/json'                
 		try:
-			response = requests.get('http://162.243.165.186:8080/job/itrust_job2/' + str(buildNumber)  + '/api/json',
+			response = requests.get('http://127.0.0.1:8080/job/itrust_job2/' + str(buildNumber)  + '/api/json',
 								auth=('admin', 'e1c89f67a1b4440fb1dd4dd3c4cf41aa'))
 			data = response.json()
 			
