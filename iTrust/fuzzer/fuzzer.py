@@ -7,7 +7,7 @@ import time
 import subprocess
 from useless_iteration import useless
 from matplotlib import pyplot as plt
-
+matplotlib.use('Agg')
 passing = []
 
 #from git import Repo
@@ -158,8 +158,8 @@ def revertcommit(sha):
 #	print "-----------------------------------"
 #	print data
 def main():
+	builds = []
 	for i in range(2):
-		builds = []
 		os.system('git checkout -B fuzzer')
 		fuzzing()
 		gitcommit(i)
