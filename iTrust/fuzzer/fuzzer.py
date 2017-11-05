@@ -19,7 +19,7 @@ def fuzzing():
         dir_name = os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 	for root, dirnames, filenames in os.walk(dir_name):
 		for filename in fnmatch.filter(filenames, '*.java'):
-			if "model" in root or "mysql" in root or "test" in root or "AddApptRequestAction.java" in filename:
+			if "model" in root or "mysql" in root or "test" in root or "AddApptRequestAction.java" in filename or "DemographicReportFilter.java" in filename:
 				continue
 			files.append(os.path.join(root, filename))
 	for file_name in files:
