@@ -52,7 +52,7 @@ def useless(buildslist):
 	
     print "Number of useless tests: "+str(uselesscountsum)
     print "Exited Useless test detector for this iteration!"
-	return uselesscountsum
+    return uselesscountsum
 
 
 
