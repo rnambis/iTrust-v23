@@ -1,3 +1,5 @@
+import matplotlib
+matplotlib.use('Agg')
 import fnmatch
 import os
 import re
@@ -7,8 +9,6 @@ import time
 import subprocess
 from useless_iteration import useless
 from matplotlib import pyplot as plt
-import matplotlib
-matplotlib.use('Agg')
 passing = []
 
 #from git import Repo
