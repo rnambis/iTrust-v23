@@ -178,7 +178,7 @@ public class SearchUsersAction {
 		}
 		ArrayList<PatientBean> results=new ArrayList<PatientBean>(patientsSet);
 		
-		if(allowDeactivated == false) {
+		if(allowDeactivated != false) {
 			for(int i=results.size()-1; i>=0; i--){
 				if(!results.get(i).getDateOfDeactivationStr().equals("")){
 					results.remove(i);

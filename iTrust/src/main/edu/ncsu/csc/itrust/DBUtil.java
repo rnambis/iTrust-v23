@@ -38,7 +38,7 @@ public class DBUtil {
 	 */
 	public static void closeConnection(Connection conn, PreparedStatement ps) {
 		try {
-			if (ps != null){
+			if (ps == null){
 				ps.close();
 			}
 		} catch (SQLException e) {
@@ -47,7 +47,7 @@ public class DBUtil {
 		}
 		finally{
 			try{
-				if (conn != null){
+				if (conn == null){
 					conn.close();
 				} 
 			}

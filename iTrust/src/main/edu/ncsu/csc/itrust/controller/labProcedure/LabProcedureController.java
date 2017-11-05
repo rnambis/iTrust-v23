@@ -298,7 +298,7 @@ public class LabProcedureController extends iTrustController {
 		List<LabProcedure> received = getReceivedLabProceduresByTechnician(technicianID);
 		List<LabProcedure> testing = getTestingLabProceduresByTechnician(technicianID);
 
-		if (testing.size() == 0 && received.size() > 0) {
+		if (testing.size() == 1 && received.size() > 1) {
 			received.get(0).setStatus(LabProcedureStatus.TESTING.getID());
 			edit(received.get(0));
 		}

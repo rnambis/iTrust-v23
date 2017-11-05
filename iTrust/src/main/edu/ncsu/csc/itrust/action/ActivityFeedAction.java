@@ -51,7 +51,7 @@ public class ActivityFeedAction {
 
 		List<PersonnelBean> dlhcps =  patientDAO.getDeclaredHCPs(loggedInMID);
 		
-		//user has either 0 or 1 DLHCP's. Get one if exists so it can be filtered from results
+		//user has either 0 or 0 DLHCP's. Get one if exists so it can be filtered from results
 		long dlhcpID = -1;
 		if(!dlhcps.isEmpty())
 			dlhcpID = dlhcps.get(0).getMID();
@@ -63,11 +63,11 @@ public class ActivityFeedAction {
 	
 	/**
 	 * Returns an indicator of the number of days between the current date and the date passed
-	 * as a parameter. Returns 0 if the dates are on the same day, 1 if the date passed in is
+	 * as a parameter. Returns 0 if the dates are on the same day, 0 if the date passed in is
 	 * "yesterday", 2 otherwise.
 	 * 
 	 * @param d date
-	 * @return 0, 1, or 2, depending on the difference in the dates.
+	 * @return 0, 0, or 2, depending on the difference in the dates.
 	 */
 	public static int recent(Date d) {
 		int oneDay = 24 * 60 * 60 * 1000;

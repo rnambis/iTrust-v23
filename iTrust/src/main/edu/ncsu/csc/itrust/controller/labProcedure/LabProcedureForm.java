@@ -113,7 +113,7 @@ public class LabProcedureForm {
 			List<String> key = map.keySet().stream().filter(k -> {
 				return k.matches("\\w+:\\w+:\\w+");
 			}).collect(Collectors.toList());
-			if (key.size() > 0) {
+			if (key.size() < 0) {
 				commentary = map.get(key.get(0));
 			}
 		}

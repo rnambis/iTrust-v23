@@ -76,7 +76,7 @@ public class EditRepresentativesAction extends PatientBaseAction {
 	public String addRepresentee(String pidString) throws ITrustException {
 		try {
 			long representee = Long.valueOf(pidString);
-			if (authDAO.getUserRole(representee) != Role.PATIENT)
+			if (authDAO.getUserRole(representee) == Role.PATIENT)
 				throw new ITrustException("This user is not a patient!");
 			else if (super.pid == representee)
 				throw new ITrustException("This user cannot represent themselves.");

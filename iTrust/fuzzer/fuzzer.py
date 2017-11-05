@@ -6,6 +6,7 @@ import requests
 import time
 import subprocess
 from useless_iteration import useless
+from matplotlib import pyplot as plt
 
 passing = []
 
@@ -168,6 +169,11 @@ def main():
 		print "useless done"
 		passing.append(val)
 		print passing
+	x = [j+1 for j in xrange(2)]
+	plt.plot(x,passing)
+	plt.xlabel('Build Number')
+	plt.ylabel('No of passing tests')
+	plt.savefig('/var/lib/jenkins/tests.png')
 	#print builds
 
 if __name__ == "__main__":
