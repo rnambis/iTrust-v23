@@ -1,0 +1,127 @@
+- name: whoami
+  shell: whoami
+  register: out
+- name: debug
+  debug: 
+    msg: "{{out.stdout}}"
+- name: update apt
+  apt:
+    update_cache: yes
+  become: true
+
+- name: Add Java repository
+  apt_repository: repo='ppa:webupd8team/java' state=present update_cache=yes 
+  become: true
+
+- name: Add license for java
+  debconf: name='oracle-java8-installer' question='shared/accepted-oracle-license-v1-1' value=true vtype=select
+  become: true
+
+- name: Install java
+  apt: name={{item}} state=present
+  with_items:
+    - oracle-java8-installer
+    - oracle-java8-set-default
+  become: true
+
+- name: Install ca-certificates
+  apt: name=ca-certificates state=present
+  become: true
+
+- name: Install git
+  apt: name=git state=present
+  become: true
+
+- name: Install maven
+  apt: name=maven state=present
+  become: true
+
+- name: Install python-mysqldb
+  apt: name=python-mysqldb state=present
+  become: true
+
+- name: create development dir
+  file: path="{{ansible_env.HOME}}/development" state=directory 
+  become: true
+
+- name: downloading apache tomcat9
+  get_url:
+   # url: http://apache.claz.org/tomcat/tomcat-9/v9.0.0.M26/bin/apache-tomcat-9.0.0.M26.tar.gz
+    url: http://www-us.apache.org/dist/tomcat/tomcat-9/v9.0.1/bin/apache-tomcat-9.0.1.tar.gz
+    dest: "{{ansible_env.HOME}}/apache-tomcat-9.0.0.M26.tar.gz"
+    force: yes
+    mode: 755
+  retries: 5
+  timeout: 60
+  become: true
+
+- name: unzip the apache9 files
+  unarchive:
+    src: "{{ansible_env.HOME}}/apache-tomcat-9.0.0.M26.tar.gz"
+    dest: "{{ansible_env.HOME}}/development"
+    remote_src: yes
+  become: true
+
+- name: Install sql-server
+  apt: name=mysql-server state=present
+  become: true
+
+- name: To accept lower case table names in mysql
+  lineinfile:
+    path: /etc/mysql/my.cnf
+    regexp: "skip-external-locking"
+    insertafter: "skip-external-locking"
+    line: "lower_case_table_names=1"
+  become: true
+
+- name: restart mysql-server
+  service:
+    name: mysql
+    state: restarted
+  become: true
+
+- name: wait for my-sql to start
+  wait_for: port=3306
+  become: true
+
+- name: create itrust directory for the itrust app
+  file: path="{{ansible_env.HOME}}/development/iTrust-v23" state=directory
+  become: true
+
+- name: clone the itrust repo from git
+  git: 
+    repo: 'https://github.com/rnambis/iTrust-v23.git'
+    dest: "{{ansible_env.HOME}}/development/iTrust-v23"
+    clone: yes
+  become: true
+
+- name: run mvn package
+  command: mvn package -DskipTests
+  ignore_errors: True
+  failed_when: False
+  args:
+    chdir: "{{ansible_env.HOME}}/development/iTrust-v23/iTrust" 
+  become: true
+
+- name: wait for itrust app to execute
+  wait_for:
+    path: "{{ansible_env.HOME}}/development/iTrust-v23/iTrust/target/iTrust-23.0.0.war"
+    state: present
+    delay: 10
+  become: true
+
+- name: copy .war to tomcat
+  copy:
+    src: "{{ansible_env.HOME}}/development/iTrust-v23/iTrust/target/iTrust-23.0.0.war"
+    dest: "{{ansible_env.HOME}}/development/apache-tomcat-9.0.1/webapps/iTrust.war"
+    remote_src: yes
+  become: true
+  
+- name: start tomcat
+  command: "nohup {{ansible_env.HOME}}/development/apache-tomcat-9.0.1/bin/startup.sh"
+  become: true
+
+- name: wait for tomcat to start
+  wait_for: port=8080
+  become: true
+

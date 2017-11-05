@@ -1,0 +1,3 @@
+#!/bin/sh
+cd /var/lib/jenkins/workspace/itrust_job1/iTrust/iTrustProvision && ansible-playbook -i localhost newdroplet.yml
+

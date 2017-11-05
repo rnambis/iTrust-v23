@@ -1,0 +1,52 @@
+---
+- hosts: localhost
+  vars:
+    droplets:
+    - droplet-one
+    - droplet-two
+  connection: local
+  serial: 1
+  gather_facts: no
+  vars_files:
+    - vars.yml
+  tasks:  
+    - include: tasks/droplet.yml
+
+
+
+- hosts: newdroplets
+  user: root      
+  vars_files:
+    - vars.yml
+  tasks:
+    - include: tasks/itrust.yml
+
+
+- hosts: newdroplets
+  serial: 1
+  tasks: 
+  - shell: echo "yolo i am here"
+    register: lol 
+  - debug:
+      msg: "{{lol.stdout}}"
+  - debug:
+      msg: "{{inventory_hostname}}"
+      #msg: "{{hostvars}}"
+  - debug: 
+     # msg: "{{hostvars[0]['id']}}"
+
+
+  - name: stop tomcat
+    command: "nohup {{ansible_env.HOME}}/development/apache-tomcat-9.0.1/bin/shutdown.sh"
+    become: true
+
+  - pause: seconds=60
+
+  - name: stop tomcat
+    command: "nohup {{ansible_env.HOME}}/development/apache-tomcat-9.0.1/bin/startup.sh"
+    become: true
+
+
+
+               
+

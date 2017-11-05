@@ -1,0 +1,77 @@
+- name: get key
+  shell: cat ~/.ssh/id_rsa.pub
+  register: key
+  
+- name: print key
+  debug:
+    msg: "{{key.stdout}}"
+- name: Deploy public key
+  digital_ocean: >
+    state=present
+    command=ssh
+    name=my_new_key
+    api_token="{{ api_key }}"
+    ssh_pub_key="{{ my_pub_key }}"
+  register: do_droplet
+  
+- name: whoami
+  shell: whoami
+  register: out
+- name: debug
+  debug:
+    msg: "{{out.stdout}}"
+     
+- name: Create Digital Ocean droplet 512Mb/Ubuntu12.04 LTS/Amsterdam
+  digital_ocean: >   
+    state=present
+    command=droplet
+    name="{{ item }}"
+    api_token="{{ api_key }}"
+    size_id=1gb
+    ssh_key_ids="{{ do_droplet.ssh_key.id }}"
+    region_id=nyc1
+    image_id=ubuntu-14-04-x64
+    wait_timeout=600
+  with_items: "{{ droplets }}"
+  register: do_droplet_new
+
+- debug: msg="ID is {{ item.droplet.id }}"
+  with_items: "{{ do_droplet_new.results }}"
+- debug: msg="IP is {{ item.droplet.ip_address}}"
+  with_items: "{{ do_droplet_new.results }}"
+
+
+- name: Add new droplet to inventory
+  add_host: >
+    name="{{ item.droplet.ip_address }}"
+    id="{{ item.droplet.id }}"
+    groups=newdroplets
+    ansible_ssh_user=root
+    ansible_ssh_private_key_file=~/.ssh/id_rsa
+  with_items: "{{ do_droplet_new.results }}"
+
+
+- name: Wait for VM to come up
+  local_action: shell ansible -u root -m ping {{ item.droplet.ip_address }}
+  register: result
+  until: result.rc == 0
+  retries: 30
+  delay: 10
+  with_items: "{{ do_droplet_new.results }}"
+
+
+- name: pause
+  pause: seconds=60
+- name: ensure droplet exists
+  digital_ocean: >
+    state=present
+    command=droplet
+    api_token="{{ api_key }}"
+    name="{{ item.droplet.id }}"
+    unique_name=yes
+    size_id=1gb
+    region_id=nyc1
+    image_id=ubuntu-14-04-x64
+
+  with_items: "{{ do_droplet_new.results }}"
+          
