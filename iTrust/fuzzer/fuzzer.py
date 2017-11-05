@@ -5,8 +5,9 @@ import random
 import requests
 import time
 import subprocess
-from useless import useless
+from useless_iteration import useless
 
+passing = []
 
 #from git import Repo
 
@@ -129,9 +130,9 @@ def gitcommit(i):
 
 def revertcommit(sha):
 	
-	
+	pass = os.popen('cat /var/lib/jenkins/secrets/initialAdminPassword').read().strip()
         response = requests.get('http://127.0.0.1:8080/job/itrust_job2/api/json',
-                                 auth=('admin', '1536380596b840d597ba68ffafd69f7e'))
+                                 auth=('admin', pass))
         data = response.json()
         buildNumber = data['nextBuildNumber']
 	#time.sleep(5)
@@ -139,7 +140,7 @@ def revertcommit(sha):
 		#print 'http://159.203.180.176:8080/job/itrust_job2/' + str(buildNumber)  + '/api/json'                
 		try:
 			response = requests.get('http://127.0.0.1:8080/job/itrust_job2/' + str(buildNumber)  + '/api/json',
-								auth=('admin', '1536380596b840d597ba68ffafd69f7e'))
+								auth=('admin', pass))
 			data = response.json()
 			
 			if data['building'] != False:
@@ -156,14 +157,15 @@ def revertcommit(sha):
 #	print "-----------------------------------"
 #	print data
 def main():
-	builds = []
-	for i in range(100):
-
+	for i in range(2):
+		builds = []
 		os.system('git checkout -B fuzzer')
 		fuzzing()
 		gitcommit(i)
 		builds.append(revertcommit(sha1))
-	useless(builds)
+		val = useless(builds)
+		passing.append(val)
+		print passing
 	#print builds
 
 if __name__ == "__main__":
