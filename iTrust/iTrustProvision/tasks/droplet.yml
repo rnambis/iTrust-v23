@@ -1,5 +1,5 @@
 - name: get key
-  shell: cat ~/.ssh/id_rsa.pub
+  shell: cat /var/lib/jenkins/.ssh/id_rsa.pub
   register: key
   
 - name: print key
