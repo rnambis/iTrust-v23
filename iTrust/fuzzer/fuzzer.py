@@ -163,7 +163,7 @@ def main():
 		fuzzing()
 		gitcommit(i)
 		builds.append(revertcommit(sha1))
-		print "build "+i+" over, useless called" 
+		print "build "+str(i)+" over, useless called" 
 		val = useless(builds)
 		print "useless done"
 		passing.append(val)
