@@ -23,7 +23,7 @@ def fuzzing():
 			if "model" in root or "mysql" in root or "test" in root or "AddApptRequestAction.java" in filename:
 				continue
 			files.append(os.path.join(root, filename))
-	lt = random.randint(1,100)
+	lt = random.randint(1,1000)
 	for file_name in files:
 			#print file_name
 		
@@ -36,7 +36,7 @@ def fuzzing():
 		# To swap <
 		#print lt
 		lines1 = lines
-		lines2 = []
+		new_lines = []
 		for line in lines:
 				
 			#print(line,': ----------------------------------------------------------inside for')
@@ -45,8 +45,8 @@ def fuzzing():
 				if(re.match('(.*)<(.*)',line) is not None ) and (re.match('.*<.+>.*',line) is None):
 					#print"---------------------------------------START----------------------------"
 					#print line,"\n"
-					if(lt < 25):
-						line = re.sub('<','>',line)
+					if(lt < 125):
+						new_line = re.sub('<','>',line)
 					#print "---------------------------------------END------------------------------"
 					#print line,"\n"
 					#print "< fuzzed"
@@ -56,8 +56,8 @@ def fuzzing():
 				if(re.match('(.*)>(.*)',line) is not None) and (re.match('.*<.+>.*',line) is None):
 					#print"---------------------------------------START----------------------------"
 					#print line,"\n"
-					if(lt >= 25 and lt < 50):
-						line = re.sub('>','<',line)
+					if(lt >= 125 and lt < 250):
+						new_line = re.sub('>','<',line)
 					#print "---------------------------------------END------------------------------
 					#print line,"\n"                        
 					#print "> fuzzed"
@@ -67,8 +67,8 @@ def fuzzing():
 				if(re.match('(.*)==(.*)',line) is not None):
 					#print"---------------------------------------START----------------------------"
 					#print line,"\n
-					if(lt >= 50 and lt < 75):
-						line = re.sub('==','!=',line)
+					if(lt >= 250 and lt < 600):
+						new_line = re.sub('==','!=',line)
 					#print "---------------------------------------END------------------------------"
 					#print line,"\n"
 					#print "= fuzzed"
@@ -78,8 +78,8 @@ def fuzzing():
 				if(re.match('(.*)!=(.*)',line) is not None):
 					#print"---------------------------------------START----------------------------"
 					#print line,"\n"
-					if(lt >= 75 and lt < 90):
-						line = re.sub('!=','==',line)
+					if(lt >= 600 and lt < 900):
+						new_line = re.sub('!=','==',line)
 					#print "---------------------------------------END------------------------------"
 					#print line,"\n"
 					#print "!= fuzzed"
@@ -105,14 +105,14 @@ def fuzzing():
 			if(re.match('.*\"(.*)\".*',line) is not None) and (re.match('\".*\\.*\"',line) is not None) and (re.match('\".*@.*\"',line) is not None):
 				#print"---------------------------------------START----------------------------"
 				#print line,"\n"
-				if(lt >= 90 and lt <= 100):
+				if(lt >= 900 and lt <= 1000):
 					match = re.search(".*(\".*\").*",line)
-					line = line.replace(match.group(1),"\"ThisISRanDOm\"")
+					new_line = line.replace(match.group(1),"\"ThisISRanDOm\"")
 				#print "---------------------------------------END------------------------------"
 				#print line,"\n"                      
 				#print "string fuzzed"
 
-			lines2.append(line)
+			new_lines.append(new_line)
 
 		#if set(lines2) == set(lines):
 			#print file_name
@@ -121,7 +121,7 @@ def fuzzing():
 		#os.system('chmod 777 ' + file_name)
 		f.close()
 		fout = open(file_name,'w')
-		for l in lines2:
+		for l in new_lines:
 			fout.write(l)
 		#print(file_name)
 		fout.close()
@@ -147,11 +147,10 @@ def revertcommit(sha):
 								auth=('admin', '1536380596b840d597ba68ffafd69f7e'))
 			data = response.json()
 			
-			if data['building'] != False:
+			if data['building'] == False:
 				#time.sleep(5)
-				continue
-			os.system('git checkout master && git branch -D fuzzer')
-			break
+				os.system('git checkout master && git branch -D fuzzer')
+				break
 
 		except ValueError:
 			#print data
@@ -162,7 +161,7 @@ def revertcommit(sha):
 #	print data
 def main():
 	builds = []
-	for i in range(100):
+	for i in range(20):
 		os.system('git checkout -B fuzzer')
 		fuzzing()
 		gitcommit(i)
@@ -172,7 +171,7 @@ def main():
 		print "useless done"
 		passing.append(val)
 		print passing
-	x = [j+1 for j in xrange(100)]
+	x = [j+1 for j in xrange(20)]
 	plt.plot(x,passing)
 	plt.xlabel('Build Number')
 	plt.ylabel('No of passing tests')
