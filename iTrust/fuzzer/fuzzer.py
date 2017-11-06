@@ -46,7 +46,7 @@ def fuzzing():
 					#print"---------------------------------------START----------------------------"
 					#print line,"\n"
 					if(lt < 125):
-						new_line = re.sub('<','>',line)
+						line = re.sub('<','>',line)
 					#print "---------------------------------------END------------------------------"
 					#print line,"\n"
 					#print "< fuzzed"
@@ -57,7 +57,7 @@ def fuzzing():
 					#print"---------------------------------------START----------------------------"
 					#print line,"\n"
 					if(lt >= 125 and lt < 250):
-						new_line = re.sub('>','<',line)
+						line = re.sub('>','<',line)
 					#print "---------------------------------------END------------------------------
 					#print line,"\n"                        
 					#print "> fuzzed"
@@ -68,7 +68,7 @@ def fuzzing():
 					#print"---------------------------------------START----------------------------"
 					#print line,"\n
 					if(lt >= 250 and lt < 600):
-						new_line = re.sub('==','!=',line)
+						line = re.sub('==','!=',line)
 					#print "---------------------------------------END------------------------------"
 					#print line,"\n"
 					#print "= fuzzed"
@@ -79,7 +79,7 @@ def fuzzing():
 					#print"---------------------------------------START----------------------------"
 					#print line,"\n"
 					if(lt >= 600 and lt < 900):
-						new_line = re.sub('!=','==',line)
+						line = re.sub('!=','==',line)
 					#print "---------------------------------------END------------------------------"
 					#print line,"\n"
 					#print "!= fuzzed"
@@ -107,12 +107,12 @@ def fuzzing():
 				#print line,"\n"
 				if(lt >= 900 and lt <= 1000):
 					match = re.search(".*(\".*\").*",line)
-					new_line = line.replace(match.group(1),"\"ThisISRanDOm\"")
+					line = line.replace(match.group(1),"\"ThisISRanDOm\"")
 				#print "---------------------------------------END------------------------------"
 				#print line,"\n"                      
 				#print "string fuzzed"
 
-			new_lines.append(new_line)
+			new_lines.append(line)
 
 		#if set(lines2) == set(lines):
 			#print file_name
