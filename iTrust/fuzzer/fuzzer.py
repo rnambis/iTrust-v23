@@ -23,13 +23,13 @@ def fuzzing():
 			if "model" in root or "mysql" in root or "test" in root or "AddApptRequestAction.java" in filename:
 				continue
 			files.append(os.path.join(root, filename))
-	lt = random.randint(1,1000)
 	for file_name in files:
 			#print file_name
 		
 		#print i,"\n"
 		f = open(file_name, 'r')
 		lines = f.readlines()
+		lt = random.randint(1,1000)
 		#lines = [" if(openAccordion < nID)", " if(openAccordion << nID)"]
 		#print lines
 		#break
