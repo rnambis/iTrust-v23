@@ -149,7 +149,7 @@ def revertcommit(sha):
 			
 			if data['building'] == False:
 				#time.sleep(5)
-				os.system('git checkout -f master && git branch -D fuzzer')
+				os.system('git stash && git checkout -f master && git branch -D fuzzer')
 				break
 
 		except ValueError:
