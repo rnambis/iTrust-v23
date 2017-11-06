@@ -23,6 +23,7 @@ def fuzzing():
 			if "model" in root or "mysql" in root or "test" in root or "AddApptRequestAction.java" in filename:
 				continue
 			files.append(os.path.join(root, filename))
+	lt = random.randint(1,100)
 	for file_name in files:
 			#print file_name
 		
@@ -33,7 +34,6 @@ def fuzzing():
 		#print lines
 		#break
 		# To swap <
-		lt = random.randint(1,1001)
 		#print lt
 		lines1 = lines
 		lines2 = []
@@ -45,7 +45,7 @@ def fuzzing():
 				if(re.match('(.*)<(.*)',line) is not None ) and (re.match('.*<.+>.*',line) is None):
 					#print"---------------------------------------START----------------------------"
 					#print line,"\n"
-					if(lt < 125):
+					if(lt < 25):
 						line = re.sub('<','>',line)
 					#print "---------------------------------------END------------------------------"
 					#print line,"\n"
@@ -56,7 +56,7 @@ def fuzzing():
 				if(re.match('(.*)>(.*)',line) is not None) and (re.match('.*<.+>.*',line) is None):
 					#print"---------------------------------------START----------------------------"
 					#print line,"\n"
-					if(lt >= 125 and lt < 250):
+					if(lt >= 25 and lt < 50):
 						line = re.sub('>','<',line)
 					#print "---------------------------------------END------------------------------
 					#print line,"\n"                        
@@ -67,7 +67,7 @@ def fuzzing():
 				if(re.match('(.*)==(.*)',line) is not None):
 					#print"---------------------------------------START----------------------------"
 					#print line,"\n
-					if(lt >= 250 and lt < 375):
+					if(lt >= 50 and lt < 75):
 						line = re.sub('==','!=',line)
 					#print "---------------------------------------END------------------------------"
 					#print line,"\n"
@@ -78,7 +78,7 @@ def fuzzing():
 				if(re.match('(.*)!=(.*)',line) is not None):
 					#print"---------------------------------------START----------------------------"
 					#print line,"\n"
-					if(lt >= 375 and lt < 700):
+					if(lt >= 75 and lt < 90):
 						line = re.sub('!=','==',line)
 					#print "---------------------------------------END------------------------------"
 					#print line,"\n"
@@ -105,7 +105,7 @@ def fuzzing():
 			if(re.match('.*\"(.*)\".*',line) is not None) and (re.match('\".*\\.*\"',line) is not None) and (re.match('\".*@.*\"',line) is not None):
 				#print"---------------------------------------START----------------------------"
 				#print line,"\n"
-				if(lt >= 700 and lt <= 1001):
+				if(lt >= 90 and lt <= 100):
 					match = re.search(".*(\".*\").*",line)
 					line = line.replace(match.group(1),"\"ThisISRanDOm\"")
 				#print "---------------------------------------END------------------------------"
@@ -124,6 +124,7 @@ def fuzzing():
 		for l in lines2:
 			fout.write(l)
 		#print(file_name)
+		fout.close()
 		
 def gitcommit(i):
 	#os.system('git add . && git commit -m "fuzzed %d"' %i)
