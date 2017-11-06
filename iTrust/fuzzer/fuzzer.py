@@ -161,7 +161,7 @@ def revertcommit(sha):
 #	print data
 def main():
 	builds = []
-	for i in range(20):
+	for i in range(100):
 		os.system('git checkout -B fuzzer')
 		fuzzing()
 		gitcommit(i)
@@ -171,7 +171,7 @@ def main():
 		print "useless done"
 		passing.append(val)
 		print passing
-	x = [j+1 for j in xrange(20)]
+	x = [j+1 for j in xrange(100)]
 	plt.plot(x,passing)
 	plt.xlabel('Build Number')
 	plt.ylabel('No of passing tests')
