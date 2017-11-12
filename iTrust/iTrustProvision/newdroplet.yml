@@ -36,17 +36,57 @@
      # msg: "{{hostvars[0]['id']}}"
 
 
-  - name: stop tomcat
-    command: "sh {{ansible_env.HOME}}/development/apache-tomcat-9.0.1/bin/shutdown.sh"
+  - name: remove iTrust repo
+    shell: rm -rf development/iTrust-v23
+    become: true
+  - name: remove iTrust war and folder
+    shell: rm -rf apache-tomcat-9.0.1/webapps/iTrust.war && rm -rf apache-tomcat-9.0.1/webapps/iTrust
+    
+
+  - pause: seconds=60
+
+  - name: create itrust directory for the itrust app
+    file: path="{{ansible_env.HOME}}/development/iTrust-v23" state=directory
     become: true
 
-  - pause: seconds=120
+  - name: clone the itrust repo from git
+    git: 
+      repo: 'https://github.com/rnambis/iTrust-v23.git'
+      dest: "{{ansible_env.HOME}}/development/iTrust-v23"
+      clone: yes
+    become: true
+
+  - name: run mvn package
+    command: mvn package -DskipTests
+    ignore_errors: True
+    failed_when: False
+    args:
+      chdir: "{{ansible_env.HOME}}/development/iTrust-v23/iTrust" 
+    become: true
+
+  - name: wait for itrust app to execute
+    wait_for:
+      path: "{{ansible_env.HOME}}/development/iTrust-v23/iTrust/target/iTrust-23.0.0.war"
+      state: present
+      delay: 10
+    become: true
+
+  - name: copy .war to tomcat
+    copy:
+      src: "{{ansible_env.HOME}}/development/iTrust-v23/iTrust/target/iTrust-23.0.0.war"
+      dest: "{{ansible_env.HOME}}/development/apache-tomcat-9.0.1/webapps/iTrust.war"
+      remote_src: yes
+    become: true
 
   - name: start tomcat
-    command: "sh {{ansible_env.HOME}}/development/apache-tomcat-9.0.1/bin/startup.sh"
+    command: "nohup {{ansible_env.HOME}}/development/apache-tomcat-9.0.1/bin/startup.sh"
+    become: true
+
+  - name: wait for tomcat to start
+    wait_for: port=8080
     become: true
 
 
 
-               
+
 
