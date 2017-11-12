@@ -37,13 +37,13 @@
 
 
   - name: stop tomcat
-    command: "nohup {{ansible_env.HOME}}/development/apache-tomcat-9.0.1/bin/shutdown.sh"
+    command: "sh {{ansible_env.HOME}}/development/apache-tomcat-9.0.1/bin/shutdown.sh"
     become: true
 
-  - pause: seconds=60
+  - pause: seconds=120
 
-  - name: stop tomcat
-    command: "nohup {{ansible_env.HOME}}/development/apache-tomcat-9.0.1/bin/startup.sh"
+  - name: start tomcat
+    command: "sh {{ansible_env.HOME}}/development/apache-tomcat-9.0.1/bin/startup.sh"
     become: true
 
 
