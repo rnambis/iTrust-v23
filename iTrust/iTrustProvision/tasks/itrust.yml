@@ -50,8 +50,9 @@
     url: http://www-us.apache.org/dist/tomcat/tomcat-9/v9.0.1/bin/apache-tomcat-9.0.1.tar.gz
     dest: "{{ansible_env.HOME}}/apache-tomcat-9.0.0.M26.tar.gz"
     force: yes
+    timeout: 60
     mode: 755
-  retries: 5
+  retries: 10
   timeout: 60
   become: true
 
