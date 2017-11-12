@@ -53,7 +53,6 @@
     timeout: 60
     mode: 755
   retries: 10
-  timeout: 60
   become: true
 
 - name: unzip the apache9 files
